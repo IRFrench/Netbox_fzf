@@ -19,3 +19,8 @@
 
 # Go workspace file
 go.work
+
+# Files you should not commit, just in case :)
+netbox/netbox.txt
+template/config
+template/ssh_template
