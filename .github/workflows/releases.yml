@@ -6,6 +6,11 @@ on:
       - "*"
 jobs:
   create-binaries:
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+        os: [linux, windows, darwin]
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,12 +18,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: "1.21"
-      - name: Create Linux x86 Binary
-        run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux_x86 cmd/main.go
-      - name: Create MacOS Arm Binary
-        run: GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -o build/macos_arm cmd/main.go
+      - name: Create ${{ matrix.os }} ${{ matrix.arch }} Binary
+        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} CGO_ENABLED=0 go build -o build/${{ matrix.os }}_${{ matrix.arch }} cmd/main.go
       - name: Upload Binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: binaries
-          path: build
+          path: build/${{ matrix.os }}_${{ matrix.arch }}
