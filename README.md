@@ -19,16 +19,15 @@ This project has been setup with github workflows to create binaries on tags. So
 
 The service looks for 3 environment varaibles.
 
-TOKEN is the Netbox API token for the service. This will be needed to get information out of the Netbox instance. You can get this out of the Netbox UI, or through a request (more information [here](https://demo.netbox.dev/static/docs/rest-api/authentication/)). If requested, I might add an option to check for a token or username and password, so the service can get itself short lived API tokens from that instead. But for now, this is fine
+`TOKEN` is the Netbox API token for the service. This will be needed to get information out of the Netbox instance. You can get this out of the Netbox UI, or through a request (more information [here](https://demo.netbox.dev/static/docs/rest-api/authentication/)). If requested, I might add an option to check for a token or username and password, so the service can get itself short lived API tokens from that instead. But for now, this is fine
 
-NETBOX_URLS is the path to the Netbox urls text file. This is not required, and the service will look for it in `netbox/netbox.txt` by default.
+`NETBOX_URLS` is the path to the Netbox urls text file. This is not required, and the service will look for it in `netbox/netbox.txt` by default.
 
-TEMPLATE is the path to the template file. Same as the Netbox urls, it is not required and will look in `template/ssh_template` by default.
+`TEMPLATE` is the path to the template file. Same as the Netbox urls, it is not required and will look in `template/ssh_template` by default.
 
 With this in mind, a command from the terminal would look as such:
 
-```
-TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary```
+```TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary```
 
 However, it would be best to look at getting this tool running on a schedule so it will automatically update the configuration.
 
@@ -44,9 +43,8 @@ This uses golangs templating, with documentation available [here](https://pkg.go
 
 The following structs are passed across to the templating service:
 
-```
 
-type templateData struct {
+```type templateData struct {
 	NetboxConfigs []NetboxConfigLists
 	Title         string
 }
