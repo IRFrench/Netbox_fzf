@@ -1,2 +1,0 @@
-https://<netbox_url>/api/dcim/devices/?tenant_id=2
-https://<netbox_url>/api/virtualization/virtual-machines/?tenant_id=2
