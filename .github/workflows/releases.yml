@@ -16,7 +16,9 @@ jobs:
       - name: Create Linux x86 Binary
         run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux_x86 cmd/main.go
       - name: Create MacOS Arm Binary
-        run: GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -o build/linux_x86 cmd/main.go
-      - uses: ncipollo/release-action@v1
+        run: GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -o build/macos_arm cmd/main.go
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v2
         with:
-          artifacts: "netbox_fzf,build/*"
+          name: binaries
+          path: build
