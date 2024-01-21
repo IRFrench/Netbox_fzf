@@ -1,0 +1,43 @@
+#  _____                         _ 
+# |  _  |___ ___ ___ ___ ___ ___| |
+# |   __| -_|  _|_ -| . |   | .'| |
+# |__|  |___|_| |___|___|_|_|__,|_|
+
+Host github.com
+    Port 22
+
+
+#  _ _ _         _   
+# | | | |___ ___| |_ 
+# | | | | . |  _| '_|
+# |_____|___|_| |_,_|
+
+Host git.work.com
+    Port 23
+    User work_username
+
+
+{{.Title}}
+{{range $index, $configList := .NetboxConfigs}}
+# {{$configList.Url}}
+{{range $index, $config := $configList.Config}}
+Host {{$config.Ip}}
+	Hostname {{$config.Name}}
+	User username
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+	AddKeysToAgent yes
+    UseKeychain yes{{end}}
+{{end}}
+
+#  _____     _       _      _____ _ _ 
+# |     |___| |_ ___| |_   |  _  | | |
+# |   --| .'|  _|  _|   |  |     | | |
+# |_____|__,|_| |___|_|_|  |__|__|_|_|
+
+Host *
+    User username
+    AddKeysToAgent yes
+    UseKeychain yes
+    Port 22
+    IdentityFile ~/.ssh/id_rsa

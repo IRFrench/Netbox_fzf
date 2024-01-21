@@ -48,7 +48,7 @@ func runService() error {
 	url_list := strings.Split(string(urls), "\n")
 
 	// Send Requests for those URLs
-	allConfig := make([][]netbox.SshDeviceSettings, len(url_list))
+	allConfig := make([]template.NetboxConfigLists, len(url_list))
 
 	// netboxClient := netbox.NewClient(config.token)
 	for index := range url_list {
@@ -65,7 +65,10 @@ func runService() error {
 			log.Error().Err(err).Str("url", url_list[index]).Msg("could not run netbox request")
 			return err
 		}
-		allConfig[index] = deviceConfigs
+		allConfig[index] = template.NetboxConfigLists{
+			Url:    url_list[index],
+			Config: deviceConfigs,
+		}
 	}
 
 	// Write these to the template
@@ -75,6 +78,7 @@ func runService() error {
 		return err
 	}
 
+	log.Info().Msg("successfully created config file")
 	return nil
 }
 

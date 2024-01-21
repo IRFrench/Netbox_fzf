@@ -6,12 +6,17 @@ import (
 	"text/template"
 )
 
-type templateData struct {
-	Config [][]netbox.SshDeviceSettings
-	Title  string
+type NetboxConfigLists struct {
+	Url    string
+	Config []netbox.SshDeviceSettings
 }
 
-func BuildConfig(sshConfig [][]netbox.SshDeviceSettings, templateFile string) error {
+type templateData struct {
+	NetboxConfigs []NetboxConfigLists
+	Title         string
+}
+
+func BuildConfig(sshConfig []NetboxConfigLists, templateFile string) error {
 	newTemplate, err := template.ParseFiles(templateFile)
 	if err != nil {
 		return err
@@ -24,8 +29,8 @@ func BuildConfig(sshConfig [][]netbox.SshDeviceSettings, templateFile string) er
 	defer file.Close()
 
 	if err := newTemplate.Execute(file, templateData{
-		Config: sshConfig,
-		Title:  netboxTitle,
+		NetboxConfigs: sshConfig,
+		Title:         netboxTitle,
 	}); err != nil {
 		return err
 	}
