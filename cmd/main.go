@@ -50,17 +50,10 @@ func runService() error {
 	// Send Requests for those URLs
 	allConfig := make([]template.NetboxConfigLists, len(url_list))
 
-	// netboxClient := netbox.NewClient(config.token)
+	netboxClient := netbox.NewClient(config.token)
 	for index := range url_list {
 		log.Info().Str("url", url_list[index]).Msg("collecting config")
-		// deviceConfigs, err := netboxClient.RunRequest(url_list[index])
-		err = nil
-		deviceConfigs := []netbox.SshDeviceSettings{
-			{
-				Name: "github.com",
-				Ip:   "82.219.0.1",
-			},
-		}
+		deviceConfigs, err := netboxClient.RunRequest(url_list[index])
 		if err != nil {
 			log.Error().Err(err).Str("url", url_list[index]).Msg("could not run netbox request")
 			return err
