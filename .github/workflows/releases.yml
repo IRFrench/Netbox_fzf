@@ -29,9 +29,9 @@ jobs:
         with:
           go-version: "1.21"
       - name: Create ${{ matrix.os }} ${{ matrix.arch }} Binary
-        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} CGO_ENABLED=0 go build -o build/netbox_fzf cmd/main.go
+        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} CGO_ENABLED=0 go build -o build/${{ matrix.os }}_${{ matrix.arch }} cmd/main.go
       - name: Add binary to release
-        run: gh release upload ${GITHUB_REF#refs/*/} build/netbox_fzf#${{ matrix.os }}_${{ matrix.arch }}
+        run: gh release upload ${GITHUB_REF#refs/*/} build/${{ matrix.os }}_${{ matrix.arch }}
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
         shell: bash
