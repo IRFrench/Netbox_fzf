@@ -5,6 +5,15 @@ on:
     tags:
       - "*"
 jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a release in GitHub
+        run: gh release create ${GITHUB_REF#refs/*/}
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
+        shell: bash
+
   create-binaries:
     strategy:
       matrix:
@@ -20,8 +29,8 @@ jobs:
           go-version: "1.21"
       - name: Create ${{ matrix.os }} ${{ matrix.arch }} Binary
         run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} CGO_ENABLED=0 go build -o build/${{ matrix.os }}_${{ matrix.arch }} cmd/main.go
-      - name: Upload Binaries
-        uses: actions/upload-artifact@v4
-        with:
-          name: binary_${{ matrix.os }}_${{ matrix.arch }}
-          path: build/${{ matrix.os }}_${{ matrix.arch }}
+      - name: Add binary to release
+        run: gh release upload ${GITHUB_REF#refs/*/} build/${{ matrix.os }}_${{ matrix.arch }}
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
+        shell: bash
