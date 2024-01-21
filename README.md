@@ -17,13 +17,13 @@ This means, you can run `ssh **` and be given a list of every host you have in y
 
 This project has been setup with github workflows to create binaries on tags. So simply grab the binary for your system and rename it to whatver you would like it to be, like `netbox_fzf` for example.
 
-The service looks for 3 environment varaibles.
+The tool looks for 3 environment varaibles.
 
-`TOKEN` is the Netbox API token for the service. This will be needed to get information out of the Netbox instance. You can get this out of the Netbox UI, or through a request (more information [here](https://demo.netbox.dev/static/docs/rest-api/authentication/)). If requested, I might add an option to check for a token or username and password, so the service can get itself short lived API tokens from that instead. But for now, this is fine
+- `TOKEN` is the Netbox API token for the service. This will be needed to get information out of the Netbox instance. You can get this out of the Netbox UI, or through a request (more information [here](https://demo.netbox.dev/static/docs/rest-api/authentication/)). If requested, I might add an option to check for a token or username and password, so the service can get itself short lived API tokens from that instead. But for now, this is fine
 
-`NETBOX_URLS` is the path to the Netbox urls text file. This is not required, and the service will look for it in `netbox/netbox.txt` by default.
+- `NETBOX_URLS` is the path to the Netbox urls text file. This is not required, and the service will look for it in `netbox/netbox.txt` by default.
 
-`TEMPLATE` is the path to the template file. Same as the Netbox urls, it is not required and will look in `template/ssh_template` by default.
+- `TEMPLATE` is the path to the template file. Same as the Netbox urls, it is not required and will look in `template/ssh_template` by default.
 
 With this in mind, a command from the terminal would look as such:
 
@@ -31,7 +31,22 @@ With this in mind, a command from the terminal would look as such:
 TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary
 ```
 
-However, it would be best to look at getting this tool running on a schedule so it will automatically update the configuration.
+However, it would be best to look at getting this tool running on a schedule so it will automatically update the configuration, using tools like cron or launchd.
+
+### Binaries
+
+In the most recent release there should be multiple files with different OS and architectures as their file names.
+
+Simply, download the file for your OS and CPU architecture:
+
+```
+amd64 (x86) = intel, amd
+arm64 = apple silicon
+
+Debian = MacOS
+Linux = Linux (Ubuntu)
+Windows = Windows
+```
 
 ### Setup Netbox urls
 
