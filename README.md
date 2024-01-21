@@ -27,7 +27,9 @@ The service looks for 3 environment varaibles.
 
 With this in mind, a command from the terminal would look as such:
 
-```TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary```
+```
+TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary
+```
 
 However, it would be best to look at getting this tool running on a schedule so it will automatically update the configuration.
 
@@ -44,7 +46,8 @@ This uses golangs templating, with documentation available [here](https://pkg.go
 The following structs are passed across to the templating service:
 
 
-```type templateData struct {
+```
+type templateData struct {
 	NetboxConfigs []NetboxConfigLists
 	Title         string
 }
@@ -57,7 +60,8 @@ type NetboxConfigLists struct {
 type SshDeviceSettings struct {
 	Name string
 	Ip   string
-}```
+}
+```
 
 This means you can loop through all of the netbox configs using `{.NetboxConfigs}`.
 
