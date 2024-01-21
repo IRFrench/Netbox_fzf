@@ -8,8 +8,8 @@ jobs:
   create-binaries:
     strategy:
       matrix:
-        arch: [amd64, arm64]
         os: [linux, windows, darwin]
+        arch: [amd64, arm64]
 
     runs-on: ubuntu-latest
     steps:
@@ -23,5 +23,5 @@ jobs:
       - name: Upload Binaries
         uses: actions/upload-artifact@v4
         with:
-          name: binaries
+          name: binary_${{ matrix.os }}_${{ matrix.arch }}
           path: build/${{ matrix.os }}_${{ matrix.arch }}
