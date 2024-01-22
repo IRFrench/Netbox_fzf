@@ -25,3 +25,4 @@ netbox/netbox.txt
 template/config
 template/ssh_template
 config
+build/

@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/rs/zerolog/log"
 )
 
 type NetboxClient struct {
@@ -29,12 +31,22 @@ func (n *NetboxClient) passResponse(response *http.Response) ([]SshDeviceSetting
 		return nil, err
 	}
 
-	sshConfigDevices := make([]SshDeviceSettings, parsedResponse.Count)
+	sshConfigDevices := []SshDeviceSettings{}
+
 	for index := range parsedResponse.Results {
-		sshConfigDevices[index] = SshDeviceSettings{
+		if parsedResponse.Results[index].PrimaryIp.Address == "" || parsedResponse.Results[index].Name == "" {
+			continue
+		}
+
+		sshConfigDevices = append(sshConfigDevices, SshDeviceSettings{
 			Name: parsedResponse.Results[index].Name,
 			Ip:   strings.Split(parsedResponse.Results[index].PrimaryIp.Address, "/")[0],
-		}
+		})
+
+		log.Debug().Str("hostname", parsedResponse.Results[index].Name).
+			Str("ip", parsedResponse.Results[index].PrimaryIp.Address).
+			Str("parsed_ip", strings.Split(parsedResponse.Results[index].PrimaryIp.Address, "/")[0]).
+			Msg("parsed config")
 	}
 
 	return sshConfigDevices, nil

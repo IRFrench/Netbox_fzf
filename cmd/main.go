@@ -23,6 +23,7 @@ type config struct {
 
 func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
 	err := runService()
 	if err != nil {
