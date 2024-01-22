@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create a release in GitHub
-        run: gh release create ${GITHUB_REF#refs/*/}
+        run: gh release create ${GITHUB_REF#refs/*/} -F changelog/${GITHUB_REF#refs/*/}.md
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
         shell: bash
