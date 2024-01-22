@@ -13,16 +13,15 @@ type NetboxConfigLists struct {
 
 type templateData struct {
 	NetboxConfigs []NetboxConfigLists
-	Title         string
 }
 
-func BuildConfig(sshConfig []NetboxConfigLists, templateFile string) error {
+func BuildConfig(sshConfig []NetboxConfigLists, templateFile string, outputPath string) error {
 	newTemplate, err := template.ParseFiles(templateFile)
 	if err != nil {
 		return err
 	}
 
-	file, err := os.Create("config")
+	file, err := os.Create(outputPath)
 	if err != nil {
 		return err
 	}
@@ -30,7 +29,6 @@ func BuildConfig(sshConfig []NetboxConfigLists, templateFile string) error {
 
 	if err := newTemplate.Execute(file, templateData{
 		NetboxConfigs: sshConfig,
-		Title:         netboxTitle,
 	}); err != nil {
 		return err
 	}

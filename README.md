@@ -17,21 +17,20 @@ This means, you can run `ssh **` and be given a list of every host you have in y
 
 This project has been setup with github workflows to create binaries on tags. So simply grab the binary for your system and rename it to whatver you would like it to be, like `netbox_fzf` for example.
 
-The tool looks for 3 environment varaibles.
+Mrk.2!
 
-- `TOKEN` is the Netbox API token for the service. This will be needed to get information out of the Netbox instance. You can get this out of the Netbox UI, or through a request (more information [here](https://demo.netbox.dev/static/docs/rest-api/authentication/)). If requested, I might add an option to check for a token or username and password, so the service can get itself short lived API tokens from that instead. But for now, this is fine
+The orginal tool used environment variables for setup. While easy to use, this has a limiting factor of 'I don't like that so much', so it has changed.
 
-- `NETBOX_URLS` is the path to the Netbox urls text file. This is not required, and the service will look for it in `netbox/netbox.txt` by default.
+The tool now uses flags!
 
-- `TEMPLATE` is the path to the template file. Same as the Netbox urls, it is not required and will look in `template/ssh_template` by default.
+- `-t <netbox_api_token>` provides the token to the service. Since this is a manditory field, you can also provide this via the environment variable `TOKEN`.
+- `-n <netbox_url_file_path>` provides the path to the netbox url file.
+- `-s <ssh_config_template_path>` provides the path to the ssh config template.
+- `-o <output_file_path>` provides the path for the created config file. I figured this would be easier than requiring any jobs to also move the file.
+- `-v` enables verbose mode, which adds some extra debug log messages
+- `-h` provides a help menu with __most__ of this information on it!
 
-With this in mind, a command from the terminal would look as such:
-
-```
-TOKEN=hsdfh7wyrwhb348345hj324h32g NETBOX_URLS=/opt/netbox_fzf/netbox.txt TEMPLATE=/opt/netbox_fzf/template ./netbox_fzf_binary
-```
-
-However, it would be best to look at getting this tool running on a schedule so it will automatically update the configuration, using tools like cron or launchd.
+Want more flags? Me too! They were fun to make!
 
 ### Binaries
 
@@ -64,7 +63,6 @@ The following structs are passed across to the templating service:
 ```
 type templateData struct {
 	NetboxConfigs []NetboxConfigLists
-	Title         string
 }
 
 type NetboxConfigLists struct {

@@ -24,7 +24,7 @@ func (n *NetboxClient) buildRequest(url string) (*http.Request, error) {
 	return newRequest, nil
 }
 
-func (n *NetboxClient) passResponse(response *http.Response) ([]SshDeviceSettings, error) {
+func (n *NetboxClient) parseResponse(response *http.Response) ([]SshDeviceSettings, error) {
 	parsedResponse := NetboxResponse{}
 
 	if err := json.NewDecoder(response.Body).Decode(&parsedResponse); err != nil {
@@ -53,18 +53,21 @@ func (n *NetboxClient) passResponse(response *http.Response) ([]SshDeviceSetting
 }
 
 func (n *NetboxClient) RunRequest(url string) ([]SshDeviceSettings, error) {
+	log.Debug().Str("url", url).Msg("building request")
 	newRequest, err := n.buildRequest(url)
 	if err != nil {
 		return nil, err
 	}
 
+	log.Debug().Msg("sending request")
 	response, err := n.client.Do(newRequest)
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
 
-	return n.passResponse(response)
+	log.Debug().Msg("parsing response")
+	return n.parseResponse(response)
 }
 
 func NewClient(token string) *NetboxClient {

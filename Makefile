@@ -2,7 +2,7 @@
 .PHONY: build
 
 run: ##	Run the service
-	TOKEN=test CGO_ENABLED=0 go run cmd/main.go
+	CGO_ENABLED=0 go run cmd/main.go -t test
 
 build: ##	Build a binary for the service
 	GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -o build/ssh_builder cmd/main.go
