@@ -25,8 +25,8 @@ Host git.work.com
 {{range $index, $configList := .NetboxConfigs}}
 # {{$configList.Url}}
 {{range $index, $config := $configList.Config}}
-Host {{$config.Ip}}
-	Hostname {{$config.Name}}
+Host {{$config.Name}}
+	Hostname {{$config.Ip}}
 	User username
 	Port 22
 	IdentityFile ~/.ssh/id_rsa
